@@ -165,9 +165,16 @@ export function Layout() {
     [routeSidebarCompanyId, routeSidebarCompanyPrefix],
   );
   // Most contextual routes replace the global navigation inside the same
-  // sidebar shell. Skills, Apps, Agent details, and Routine details are the
-  // exceptions in Streamlined UI: their local navigation is a second rail
-  // beside the persistent company nav.
+  // sidebar shell. Skills, Apps, Agent details, Routine details, and plugin
+  // route sidebars are the exceptions in Streamlined UI: their local
+  // navigation is a second rail beside the persistent company nav.
+  const showsPluginRouteSidebar = Boolean(routeSidebarSlot)
+    && !isCompanySettingsRoute
+    && !appDetailConnectionId
+    && !appDetailApplicationId
+    && !isAppsRoute
+    && !isToolsRoute
+    && !shellRoute.builtInContextualSurface;
   const sharedSecondarySidebar = isCompanySettingsRoute ? (
     <CompanySettingsSidebar />
   ) : !streamlinedUiEnabled && shellRoute.builtInContextualSurface === "skills" ? (
@@ -183,6 +190,8 @@ export function Layout() {
       <ContextualSidebarFrame
         surface={`plugin:${routeSidebarSlot.id}`}
         title={routeSidebarSlot.displayName}
+        showHeader={false}
+        className="border-r border-border bg-background"
       >
         <PluginSlotMount
           slot={routeSidebarSlot}
@@ -214,6 +223,7 @@ export function Layout() {
     || shellRoute.builtInContextualSurface === "routine"
     || isAppsRoute
     || isToolsRoute
+    || showsPluginRouteSidebar
   );
   const replacesPrimarySidebar = streamlinedUiEnabled && hasSecondarySidebar && !keepsPrimarySidebar;
   const showsAdjacentSecondarySidebar = hasSecondarySidebar && (!streamlinedUiEnabled || keepsPrimarySidebar);
