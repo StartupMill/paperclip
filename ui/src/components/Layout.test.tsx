@@ -1122,7 +1122,8 @@ describe("Layout", () => {
     expect(
       container.querySelector("[data-plugin-slot-class='min-h-0 flex-1']"),
     ).not.toBeNull();
-    expect(container.textContent).not.toContain("Main company nav");
+    // Plugin route sidebars are a second rail beside the company nav, like agent pages.
+    expect(container.textContent).toContain("Main company nav");
     expect(container.textContent).not.toContain("Company settings sidebar");
     expect(container.textContent).not.toContain("Instance sidebar");
 
@@ -1181,7 +1182,8 @@ describe("Layout", () => {
     expect(container.textContent).toContain(
       "Plugin route sidebar: Wiki Sidebar",
     );
-    expect(container.textContent).not.toContain("Main company nav");
+    // Plugin route sidebars are a second rail beside the company nav, like agent pages.
+    expect(container.textContent).toContain("Main company nav");
 
     await act(async () => {
       root.unmount();
